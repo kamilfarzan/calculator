@@ -1,9 +1,10 @@
 import { add, subtract, multiply, divide } from "./js/functions.js";
 
 let firstNum = 0;
-let operator = "+";
+let operator = "";
 let secondNum = null;
 let operandSwitch = false;
+let equalsSwitch = false;
 let displayValue = 0;
 
 function setEventListeners() {
@@ -18,11 +19,27 @@ function setEventListeners() {
   operator.forEach((el) => {
     el.addEventListener(`click`, (e) => {
       e.preventDefault();
+      if (secondNum !== null) {
+        if (equalsSwitch == true) {
+          equalsSwitch = false;
+          operandSwitch = true;
+          secondNum = null;
+        } else {
+          handleEqualsEvent();
+          secondNum = null;
+        }
+      } else {
+        handleOperandSwitch();
+      }
       processOperatorEvent(el.value);
     });
   });
   const equals = document.querySelector(`#equal`);
-  equals.addEventListener(`click`, handleEqualsEvent);
+  equals.addEventListener(`click`, (e) => {
+    handleEqualsEvent();
+    operandSwitch = false;
+    equalsSwitch = true;
+  });
 
   const clear = document.querySelector(`#clear`);
   clear.addEventListener(`click`, clearEverything);
@@ -37,6 +54,7 @@ function clearEverything() {
   secondNum = null;
   operator = "";
   operandSwitch = false;
+  equalsSwitch = false;
 
   screen.textContent = `0`;
   operatorDisplay.textContent = ``;
@@ -65,7 +83,7 @@ function appendDisplayValue(val) {
   displayValue = screen.textContent;
 }
 
-function processOperatorEvent(val) {
+function handleOperandSwitch() {
   const screen = document.querySelector(`#numberDisplay`);
   if (!operandSwitch) {
     firstNum = screen.textContent;
@@ -74,6 +92,9 @@ function processOperatorEvent(val) {
     secondNum = screen.textContent;
     operandSwitch = false;
   }
+}
+
+function processOperatorEvent(val) {
   operator = val;
   setOperatorDisplayValue(val);
 }
@@ -87,15 +108,23 @@ function handleEqualsEvent() {
   const screen = document.querySelector(`#numberDisplay`);
   const operatorDisplay = document.querySelector(`#operatorDisplay`);
 
-  operatorDisplay.textContent = "";
-
   console.log(firstNum, operator, secondNum);
-  screen.textContent = operate(
-    parseInt(firstNum),
-    operator,
-    parseInt(secondNum)
-  );
-  firstNum = operate(parseInt(firstNum), operator, parseInt(secondNum));
+  if (operator != "" && secondNum !== null) {
+    operatorDisplay.textContent = "";
+    let answer = operate(parseFloat(firstNum), operator, parseFloat(secondNum));
+    if (typeof answer == "number" && answer % 1 != 0) {
+      answer = answer.toFixed(6);
+    }
+    screen.textContent = parseFloat(answer);
+    if (typeof answer == "string") {
+      firstNum = 0;
+      operator = "";
+      secondNum = null;
+      operandSwitch = false;
+    } else {
+      firstNum = answer;
+    }
+  }
 }
 
 function operate(a, operator, b) {
