@@ -23,18 +23,6 @@
   flex-wrap: wrap;
 }
 
-#screen {
-  box-shadow: 0px 0px 0px 1px black;
-  height: 50px;
-  width: 100%;
-  background-color: var(--lighter-grey);
-  align-self: flex-end;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .button {
   display: flex;
   justify-content: center;
@@ -47,6 +35,32 @@
   background-color: var(--lighter-grey);
 }
 
+#screen {
+  box-sizing: border-box;
+  box-shadow: 0px 0px 0px 1px black;
+  height: 50px;
+  width: 100%;
+  background-color: var(--lighter-grey);
+  align-self: flex-end;
+
+  padding: 0 8px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#clear {
+  background-color: hsl(33, 100%, 76%);
+}
+
+#operator {
+  background-color: hsl(196, 100%, 76%);
+}
+
+#equal {
+  background-color: hsl(80, 100%, 76%);
+}
 .button:hover {
   background-color: azure;
 }

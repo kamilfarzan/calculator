@@ -131,11 +131,11 @@ function operate(a, operator, b) {
   switch (operator) {
     case "+":
       return add(a, b);
-    case "-":
+    case "−":
       return subtract(a, b);
-    case "*":
+    case "×":
       return multiply(a, b);
-    case "/":
+    case "÷":
       return divide(a, b);
     case "":
       return 0;
